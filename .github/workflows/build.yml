@@ -36,6 +36,7 @@ jobs:
   Deploy-Qa:
     runs-on: [ubuntu-latest]
     environment: qa
+    if: github.ref == 'refs/heads/main'
     needs: [ Deploy-Dev ] 
     steps:
       - name: Deploy QA
