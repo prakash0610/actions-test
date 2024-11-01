@@ -36,8 +36,7 @@ jobs:
   Deploy-Qa:
     runs-on: [ubuntu-latest]
     environment: qa
-    needs: [ Deploy-Dev ]
-    if: github.ref == 'refs/heads/main' 
+    needs: [ Deploy-Dev ] 
     steps:
       - name: Deploy QA
         run: echo "QA Deployed"
@@ -54,7 +53,6 @@ jobs:
     runs-on: [ubuntu-latest]
     environment: prod
     needs: [ Deploy-Uat ]
-    if: github.ref == 'refs/heads/master' 
     steps:
       - name: Deploy Prod
         run: echo "prod Deployed"
