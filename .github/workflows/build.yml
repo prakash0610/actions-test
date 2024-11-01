@@ -32,20 +32,10 @@ jobs:
     steps:
       - name: Deploy Dev
         run: echo "Dev Deployed"
-      - uses: trstringer/manual-approval@v1
-        with:
-          secret: ${{ github.TOKEN }}
-          approvers: prakash0610
-          minimum-approvals: 1
-          issue-title: "Deply to QA"
-          issue-body: "Please approve or deny the deployment of qa"
-          exclude-workflow-initiator-as-approver: false
-          additional-approved-words: ''
-          additional-denied-words: ''
-
 
   Deploy-Qa:
     runs-on: [ubuntu-latest]
+    environment: qa
     needs: [ Deploy-Dev ]
     if: github.ref == 'refs/heads/main' 
     steps:
@@ -59,19 +49,10 @@ jobs:
     steps:
       - name: Deploy Uat
         run: echo "UAT Deployed"
-      - uses: trstringer/manual-approval@v1
-        with:
-          secret: ${{ github.TOKEN }}
-          approvers: prakash0610
-          minimum-approvals: 1
-          issue-title: "Deploy to Prod"
-          issue-body: "Please approve or deny the deployment of prod"
-          exclude-workflow-initiator-as-approver: false
-          additional-approved-words: ''
-          additional-denied-words: ''
 
   Deploy-Prod:
     runs-on: [ubuntu-latest]
+    environment: prod
     needs: [ Deploy-Uat ]
     if: github.ref == 'refs/heads/master' 
     steps:
