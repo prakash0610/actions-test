@@ -1,0 +1,47 @@
+name: CI/CD Pipeline
+
+on:
+  workflow_dispatch:
+    inputs:
+    # we have kind of gated deployment for qa and prod environments, which is manual in gitlab ci/cd, this is an attempt to replicate that.
+      deploy_env:
+        type: choice
+        description: 'Environment to deploy to either qa or prod'
+        required: false
+        options:
+          - qa
+          - prod
+  push:
+    branches:
+      - '**'
+
+jobs:
+  Build:
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: Build
+        run: echo "Build Completed"
+        
+  Test:
+    runs-on: [ubuntu-latest]
+    needs: Build
+    steps:
+      - name: Test
+        run: echo "Test Completed"
+          
+  Deploy-Dev:
+    runs-on: [ubuntu-latest]
+    needs: Build
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Deploy Dev
+        run: echo "Dev Deployed"
+
+
+  Deploy-Qa:
+    runs-on: [ubuntu-latest]
+    needs: Build
+    if: github.ref == 'refs/heads/main' && github.event.inputs.deploy_env == 'qa'
+    steps:
+      - name: Deploy QA
+        run: echo "QA Deployed"
