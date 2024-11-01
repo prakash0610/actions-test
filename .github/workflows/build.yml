@@ -16,7 +16,7 @@ jobs:
     runs-on: [ubuntu-latest]
     steps:
       - name: Build
-        run: echo "Build Completed !"
+        run: echo "Build Completed!"
         
   Test:
     runs-on: [ubuntu-latest]
