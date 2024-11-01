@@ -46,7 +46,7 @@ jobs:
 
   Deploy-Qa:
     runs-on: [ubuntu-latest]
-    needs: [Build, Test, Deploy-Dev ]
+    needs: [ Deploy-Dev ]
     if: github.ref == 'refs/heads/main' 
     steps:
       - name: Deploy QA
@@ -54,7 +54,7 @@ jobs:
 
   Deploy-Uat:
     runs-on: [ubuntu-latest]
-    needs: Build
+    needs: [Build, Test]
     if: github.ref == 'refs/heads/master'
     steps:
       - name: Deploy Uat
@@ -72,7 +72,7 @@ jobs:
 
   Deploy-Prod:
     runs-on: [ubuntu-latest]
-    needs: [Build, Test, Deploy-Uat ]
+    needs: [ Deploy-Uat ]
     if: github.ref == 'refs/heads/master' 
     steps:
       - name: Deploy Prod
